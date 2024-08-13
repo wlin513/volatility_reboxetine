@@ -1,0 +1,113 @@
+%%    plot pupil response visit2 - visit1 average across blocks for both groups
+means=[mean(mean(means_rew_bslines.placebo(2,:,:)-means_rew_bslines.placebo(1,:,:),3)),...
+               mean(mean(means_rew_bslines.reboxetine(2,:,:)-means_rew_bslines.reboxetine(1,:,:),3));...
+               mean(mean(means_pun_bslines.placebo(2,:,:)-means_pun_bslines.placebo(1,:,:),3)),...
+               mean(mean(means_pun_bslines.reboxetine(2,:,:)-means_pun_bslines.reboxetine(1,:,:),3))];
+           
+
+stes=[std(mean(means_rew_bslines.placebo(2,:,:)-means_rew_bslines.placebo(1,:,:),3))./sqrt(size(means_rew_bslines.placebo,2)),...
+            std(mean(means_rew_bslines.reboxetine(2,:,:)-means_rew_bslines.reboxetine(1,:,:),3))./sqrt(size(means_rew_bslines.reboxetine,2));...
+            std(mean(means_pun_bslines.placebo(2,:,:)-means_pun_bslines.placebo(1,:,:),3))./sqrt(size(means_rew_bslines.reboxetine,2)),...
+            std(mean(means_pun_bslines.reboxetine(2,:,:)-means_pun_bslines.reboxetine(1,:,:),3))./sqrt(size(means_rew_bslines.reboxetine,2))];
+        
+errhigh=means+stes;
+errlow=means-stes;
+ %
+f1=figure;
+x=[0.85,1.15;1.85,2.15];
+H=bar(means);
+H(1).FaceColor = [0.188 0.663, 0.871];
+H(2).FaceColor = [0.937,0.863, 0.020];
+H(1).EdgeColor = 'none';
+H(2).EdgeColor = 'none';
+hold on
+er=errorbar(x,means,stes);
+er(1).Color='black';
+er(2).Color='black';
+er(1).LineStyle='none';
+er(2).LineStyle='none';
+legend('placebo','reboxetine')
+ylabel('visit2 - visit1 pupil baseline','FontSize',16)
+set(gca,'XTickLabel',{'win','loss'},'FontSize',13);
+%
+saveas(f1,[figdir,'pupil/baseline_pupil_response_diff_average4blocks.png']);
+%%    plot pupil response visit2 - visit1 for each block for loss
+f2=figure;
+means=[        mean(means_pun_bslines.placebo(2,:,1)-means_pun_bslines.placebo(1,:,1)),...
+               mean(means_pun_bslines.placebo(2,:,2)-means_pun_bslines.placebo(1,:,2)),...
+               mean(means_pun_bslines.placebo(2,:,3)-means_pun_bslines.placebo(1,:,3)),...
+               mean(means_pun_bslines.placebo(2,:,4)-means_pun_bslines.placebo(1,:,4));...
+               mean(means_pun_bslines.reboxetine(2,:,1)-means_pun_bslines.reboxetine(1,:,1)),...
+               mean(means_pun_bslines.reboxetine(2,:,2)-means_pun_bslines.reboxetine(1,:,2)),...
+               mean(means_pun_bslines.reboxetine(2,:,3)-means_pun_bslines.reboxetine(1,:,3)),...
+               mean(means_pun_bslines.reboxetine(2,:,4)-means_pun_bslines.reboxetine(1,:,4))
+               ];
+ stes=[    std(means_pun_bslines.placebo(2,:,1)-means_pun_bslines.placebo(1,:,1))./sqrt(size(means_rew_bslines.placebo,2)),...
+           std(means_pun_bslines.placebo(2,:,2)-means_pun_bslines.placebo(1,:,2))./sqrt(size(means_rew_bslines.placebo,2)),...
+           std(means_pun_bslines.placebo(2,:,3)-means_pun_bslines.placebo(1,:,3))./sqrt(size(means_rew_bslines.placebo,2)),...
+           std(means_pun_bslines.placebo(2,:,4)-means_pun_bslines.placebo(1,:,4))./sqrt(size(means_rew_bslines.placebo,2));...
+           std(means_pun_bslines.reboxetine(2,:,1)-means_pun_bslines.reboxetine(1,:,1))./sqrt(size(means_rew_bslines.reboxetine,2)),...
+           std(means_pun_bslines.reboxetine(2,:,2)-means_pun_bslines.reboxetine(1,:,2))./sqrt(size(means_rew_bslines.reboxetine,2)),...
+           std(means_pun_bslines.reboxetine(2,:,3)-means_pun_bslines.reboxetine(1,:,3))./sqrt(size(means_rew_bslines.reboxetine,2)),...
+           std(means_pun_bslines.reboxetine(2,:,4)-means_pun_bslines.reboxetine(1,:,4))./sqrt(size(means_rew_bslines.reboxetine,2))
+              ];
+b= bar(means');
+b(1).FaceColor = [0.188 0.663, 0.871];
+b(2).FaceColor = [0.937,0.863, 0.020];
+b(1).EdgeColor = 'none';
+b(2).EdgeColor = 'none';
+hold on
+x=[1,2,3,4;1,2,3,4];
+x(1,:)=x(1,:)-0.15;
+x(2,:)=x(2,:)+0.15;
+er=errorbar(x',means',stes');
+er(1).Color='black';
+er(2).Color='black';
+er(1).LineStyle='none';
+er(2).LineStyle='none';
+legend('placebo','reboxetine','Location','SouthEast')
+ylabel('visit2 - visit1 pupil baseline','FontSize',20)
+title('win outcomes','FontSize',20);
+set(gca,'XTickLabel',{'both volatile','win volatile','loss volatile','both stable'},'FontSize',13);
+saveas(f2,[figdir,'pupil/baseline_pupil_response_diff_for_each_block_winout.png']);
+%%    plot pupil response visit2 - visit1 for each block for wins
+f3=figure;
+means=[
+
+               mean(means_rew_bslines.placebo(2,:,1)-means_rew_bslines.placebo(1,:,1)),...
+               mean(means_rew_bslines.placebo(2,:,2)-means_rew_bslines.placebo(1,:,2)),...
+               mean(means_rew_bslines.placebo(2,:,3)-means_rew_bslines.placebo(1,:,3)),...
+               mean(means_rew_bslines.placebo(2,:,4)-means_rew_bslines.placebo(1,:,4));...
+               mean(means_rew_bslines.reboxetine(2,:,1)-means_rew_bslines.reboxetine(1,:,1)),...
+               mean(means_rew_bslines.reboxetine(2,:,2)-means_rew_bslines.reboxetine(1,:,2)),...
+               mean(means_rew_bslines.reboxetine(2,:,3)-means_rew_bslines.reboxetine(1,:,3)),...
+               mean(means_rew_bslines.reboxetine(2,:,4)-means_rew_bslines.reboxetine(1,:,4))
+               ];
+ stes=[    std(means_rew_bslines.placebo(2,:,1)-means_rew_bslines.placebo(1,:,1))./sqrt(size(means_rew_bslines.placebo,2)),...
+           std(means_rew_bslines.placebo(2,:,2)-means_rew_bslines.placebo(1,:,2))./sqrt(size(means_rew_bslines.placebo,2)),...
+           std(means_rew_bslines.placebo(2,:,3)-means_rew_bslines.placebo(1,:,3))./sqrt(size(means_rew_bslines.placebo,2)),...
+           std(means_rew_bslines.placebo(2,:,4)-means_rew_bslines.placebo(1,:,4))./sqrt(size(means_rew_bslines.placebo,2));...
+            std(means_rew_bslines.reboxetine(2,:,1)-means_rew_bslines.reboxetine(1,:,1))./sqrt(size(means_rew_bslines.reboxetine,2)),...
+           std(means_rew_bslines.reboxetine(2,:,2)-means_rew_bslines.reboxetine(1,:,2))./sqrt(size(means_rew_bslines.reboxetine,2)),...
+           std(means_rew_bslines.reboxetine(2,:,3)-means_rew_bslines.reboxetine(1,:,3))./sqrt(size(means_rew_bslines.reboxetine,2)),...
+           std(means_rew_bslines.reboxetine(2,:,4)-means_rew_bslines.reboxetine(1,:,4))./sqrt(size(means_rew_bslines.reboxetine,2))
+ ];
+b= bar(means');
+b(1).FaceColor = [0.188 0.663, 0.871];
+b(2).FaceColor = [0.937,0.863, 0.020];
+b(1).EdgeColor = 'none';
+b(2).EdgeColor = 'none';
+hold on
+x=[1,2,3,4;1,2,3,4];
+x(1,:)=x(1,:)-0.15;
+x(2,:)=x(2,:)+0.15;
+er=errorbar(x',means',stes');
+er(1).Color='black';
+er(2).Color='black';
+er(1).LineStyle='none';
+er(2).LineStyle='none';
+legend('placebo','reboxetine','Location','SouthEast')
+ylabel('visit2 - visit1 pupil baseline','FontSize',20)
+title('Loss outcomes','FontSize',20);
+set(gca,'XTickLabel',{'both volatile','win volatile','loss volatile','both stable'},'FontSize',13);
+saveas(f3,[figdir,'pupil/baseline_pupil_response_diff_for_each_block_lossout.png']);
